@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FireBaseDemo</string>
+    <string name="email">Email</string>
+    <string name="password">password</string>
+    <string name="signIn">Register</string>
+    <string name="tvSendLogIn">Already Registered? Log In</string>
+</resources>
