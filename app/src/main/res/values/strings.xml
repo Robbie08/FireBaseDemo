@@ -2,6 +2,11 @@
     <string name="app_name">FireBaseDemo</string>
     <string name="email">Email</string>
     <string name="password">password</string>
-    <string name="signIn">Register</string>
+    <string name="signIn">Sign In</string>
+    <string name="register">register</string>
     <string name="tvSendLogIn">Already Registered? Log In</string>
+    <string name="tvSendRegister">Register</string>
+    <string name="user_login">User LogIn</string>
+    <string name="the_cool_wall">The Cool Wall</string>
+    <string name="log_out">Log Out</string>
 </resources>

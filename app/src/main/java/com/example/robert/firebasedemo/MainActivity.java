@@ -1,15 +1,14 @@
 package com.example.robert.firebasedemo;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.JsonToken;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,10 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Objects;
-
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
     //Declare local variables
@@ -43,12 +38,19 @@ public class MainActivity extends AppCompatActivity {
         fireBaseAuth = FirebaseAuth.getInstance();
 
         //Declare variables
-        email = (EditText) findViewById(R.id.etEmail);
-        passWord = (EditText) findViewById(R.id.etPassword);
-        registerUser = (Button) findViewById(R.id.bRegisterUser);
-        alreadyRegistered = (TextView) findViewById(R.id.tvSendLogIn);
+        email = (EditText) findViewById(R.id.etEmailLogIn);
+        passWord = (EditText) findViewById(R.id.etPasswordLogIn);
+        registerUser = (Button) findViewById(R.id.bLogIn);
+        alreadyRegistered = (TextView) findViewById(R.id.tvSendRegister);
 
 
+        //check if the user exists
+        if(fireBaseAuth.getCurrentUser() != null){
+            //CloseActivity
+            finish();
+            //Open new activity, WallActivity
+            startActivity(new Intent(this,WallActivity.class));
+        }
 
 
     }
@@ -79,15 +81,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Register user to server
         fireBaseAuth.createUserWithEmailAndPassword(stringEmail,stringPassword)
-                                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                                         if(task.isSuccessful()){
                                             //User is successfully registered
                                             //start profile activity here
                                             //also display toast
+                                            progressDialog.dismiss();
                                             Toast.makeText(MainActivity.this,"Registration was successful",Toast.LENGTH_LONG).show();
+                                            finish();
+                                            startActivity(new Intent(getApplicationContext(),WallActivity.class));
                                         }else{
                                             Toast.makeText(MainActivity.this,"Registration was unsuccessful, Please try again",Toast.LENGTH_LONG).show();
                                         }
@@ -97,16 +101,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Once TextView sendLogIn is clicked, the user will be redirected to the sign in page
-     * @param view
+     * @param view will pass in our activity_log_in.xml
      */
     public void sendLogIn(View view){
-
-
+        //Must send the user to the LogIn Activity
+        finish();
+        startActivity(new Intent(this,LogInActivity.class));
     }
 
     /**
      * Once the Button is clicked, the information will be sent to FireBase
-     * @param view
+     * @param view will pass in our activity_wall.xml
      */
     public void register(View view){
 
