@@ -15,18 +15,14 @@ import java.text.MessageFormat;
 
 public class WallActivity extends AppCompatActivity {
 
-    private TextView userEmail;
-    private Button logOut;
-    private ProgressDialog progressDialog;
+    ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall);
         //Initialize Variables
-        logOut = (Button) findViewById(R.id.bLogOut);
-        userEmail = (TextView) findViewById(R.id.tvDisplayUserEmail);
-
+        TextView userEmail = (TextView) findViewById(R.id.tvDisplayUserEmail);
 
         //Initialize ProgressDialog object
         progressDialog = new ProgressDialog(this);
@@ -54,6 +50,7 @@ public class WallActivity extends AppCompatActivity {
 
         firebaseAuth.signOut();
         finish();
+        progressDialog.dismiss();
         startActivity(new Intent(this,LogInActivity.class));
     }
 

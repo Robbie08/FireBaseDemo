@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,13 +15,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LogInActivity extends AppCompatActivity {
 
     private EditText emailLogIn, passwordLogIn;
-    private Button logIn;
-    private String stringEmailLogIn,stringPasswordLogIn;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     @Override
@@ -36,7 +32,7 @@ public class LogInActivity extends AppCompatActivity {
         //Initialize Firebase object
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //check if the user exists
+        //check if the user exists/signed in
         if(firebaseAuth.getCurrentUser() != null){
             //CloseActivity
             finish();
@@ -46,7 +42,6 @@ public class LogInActivity extends AppCompatActivity {
         //Initialize variables
         emailLogIn = (EditText) findViewById(R.id.etEmailLogIn);
         passwordLogIn = (EditText) findViewById(R.id.etPasswordLogIn);
-        logIn = (Button) findViewById(R.id.bLogIn);
 
 
     }
@@ -58,10 +53,9 @@ public class LogInActivity extends AppCompatActivity {
     private void logInUser(){
 
         //Get and convert user input and store it as String
-        stringEmailLogIn = emailLogIn.getText().toString().trim();
-        stringPasswordLogIn = passwordLogIn.getText().toString().trim();
+        String stringEmailLogIn = emailLogIn.getText().toString().trim();
+        String stringPasswordLogIn = passwordLogIn.getText().toString().trim();
 
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
         //Check if our email and password are populated to avoid null pointer
         if(TextUtils.isEmpty(stringEmailLogIn)){
             //email is empty
@@ -91,7 +85,7 @@ public class LogInActivity extends AppCompatActivity {
          *  @param Email the input from the email edit text
          *  @param Password the input from the password edit text
          */
-        firebaseAuth.signInWithEmailAndPassword(stringEmailLogIn,stringPasswordLogIn)
+        firebaseAuth.signInWithEmailAndPassword(stringEmailLogIn, stringPasswordLogIn)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

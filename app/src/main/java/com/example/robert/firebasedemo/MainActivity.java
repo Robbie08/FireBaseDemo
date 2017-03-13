@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,9 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     //Declare local variables
     private EditText email, passWord;
-    private TextView alreadyRegistered;
-    private Button registerUser;
-    private String stringEmail="", stringPassword="";
     private ProgressDialog progressDialog;
     private FirebaseAuth fireBaseAuth;
 
@@ -40,11 +35,9 @@ public class MainActivity extends AppCompatActivity {
         //Declare variables
         email = (EditText) findViewById(R.id.etEmailLogIn);
         passWord = (EditText) findViewById(R.id.etPasswordLogIn);
-        registerUser = (Button) findViewById(R.id.bLogIn);
-        alreadyRegistered = (TextView) findViewById(R.id.tvSendRegister);
 
 
-        //check if the user exists
+        //check if the user exists/signed in
         if(fireBaseAuth.getCurrentUser() != null){
             //CloseActivity
             finish();
@@ -61,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
      * take time.
      */
     private void registerUser(){
-        stringEmail = email.getText().toString().trim();
-        stringPassword = passWord.getText().toString().trim();
+        String stringEmail = email.getText().toString().trim();
+        String stringPassword = passWord.getText().toString().trim();
 
         if(TextUtils.isEmpty(stringEmail)){
             //email is empty
@@ -80,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.show();
 
         //Register user to server
-        fireBaseAuth.createUserWithEmailAndPassword(stringEmail,stringPassword)
+        fireBaseAuth.createUserWithEmailAndPassword(stringEmail, stringPassword)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
